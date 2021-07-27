@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace TodoApi.Data
             _context = context;
         }
 
-        public UserDetailsSuccess CreateUser(UserDetails userDetails)
+        public async Task<UserDetailsSuccess> CreateUser(UserDetails userDetails)
         {
             var userInfo = new User()
             {
@@ -26,8 +27,8 @@ namespace TodoApi.Data
                 UserName = userDetails.UserName
             };
 
-            _context.User.Add(userInfo);
-            _context.SaveChanges();
+            await _context.User.AddAsync(userInfo);
+            await _context.SaveChangesAsync();
 
             var newUserInfo = _context.User.FirstOrDefault(x => x.UserName == userDetails.UserName);
 
@@ -43,8 +44,8 @@ namespace TodoApi.Data
                 AddressType = userDetails.AddressType,
             };
 
-            _context.Address.Add(userAddress);
-            _context.SaveChanges();
+            await _context.Address.AddAsync(userAddress);
+            await _context.SaveChangesAsync();
 
             var userContact = new Contact()
             {
@@ -52,8 +53,8 @@ namespace TodoApi.Data
                 Number = userDetails.Number,
             };
 
-            _context.Contact.Add(userContact);
-            _context.SaveChanges();
+            await _context.Contact.AddAsync(userContact);
+            await _context.SaveChangesAsync();
 
             return new UserDetailsSuccess()
             {
@@ -62,26 +63,26 @@ namespace TodoApi.Data
             };
         }
 
-        public UserDetailsSuccess DeleteUser(int id)
+        public async Task<UserDetailsSuccess> DeleteUser(int id)
         {
-            var userInfo = GetUserInfo(id);
-            var address = GetUserAddress(id);
-            var contact = GetUserContact(id);
+            var userInfo = await GetUserInfo(id);
+            var address = await GetUserAddress(id);
+            var contact = await GetUserContact(id);
 
             if (contact != null)
             {
                 _context.Contact.Remove(contact);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             if (address != null)
             {
                 _context.Address.Remove(address);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             _context.User.Remove(userInfo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             
 
@@ -121,11 +122,11 @@ namespace TodoApi.Data
             return usersList;
         }
 
-        public UserDetails GetUser(int id)
+        public async Task<UserDetails> GetUser(int id)
         {
-            var userInfo = GetUserInfo(id);
-            var address = GetUserAddress(id);
-            var contact = GetUserContact(id);
+            var userInfo = await GetUserInfo(id);
+            var address = await GetUserAddress(id);
+            var contact = await GetUserContact(id);
 
             return new UserDetails()
             {
@@ -145,26 +146,26 @@ namespace TodoApi.Data
             };
         }
 
-        public Address GetUserAddress(int userId)
+        public async Task<Address> GetUserAddress(int userId)
         {
-            return _context.Address.FirstOrDefault(x => x.UserId == userId);
+            return await _context.Address.FirstOrDefaultAsync(x => x.UserId == userId);
         }
 
-        public Contact GetUserContact(int userId)
+        public async Task<Contact> GetUserContact(int userId)
         {
-            return _context.Contact.FirstOrDefault(x => x.UserId == userId);
+            return await _context.Contact.FirstOrDefaultAsync(x => x.UserId == userId);
         }
 
-        public User GetUserInfo(int userId)
+        public async Task<User> GetUserInfo(int userId)
         {
-            return _context.User.FirstOrDefault(x => x.Id == userId);
+            return await _context.User.FirstOrDefaultAsync(x => x.Id == userId);
         }
 
-        public UserDetails UpdateUser(int id, UserDetails newUserDetails)
+        public async Task<UserDetails> UpdateUser(int id,UserDetails newUserDetails)
         {
-            var userInfo = GetUserInfo(id);
-            var address = GetUserAddress(id);
-            var contact = GetUserContact(id);
+            var userInfo = await GetUserInfo(id);
+            var address = await GetUserAddress(id);
+            var contact = await GetUserContact(id);
 
             userInfo.FirstName = newUserDetails.FirstName;
             userInfo.LastName = newUserDetails.LastName;
@@ -179,39 +180,15 @@ namespace TodoApi.Data
             address.AddressType = newUserDetails.AddressType;
 
             contact.Number = newUserDetails.Number;
-            _context.User.Update(userInfo);
-            _context.SaveChanges();
 
-            if (address != null)
-            {
-                _context.Address.Update(address);
-                _context.SaveChanges();
-            }
-            else
-            {
-                address.UserId = userInfo.Id;
-                _context.Address.Add(address);
-                _context.SaveChanges();
-            }
-
-            if (address != null)
-            {
-                _context.Contact.Update(contact);
-                _context.SaveChanges();
-            }
-            else
-            {
-                contact.UserId = userInfo.Id;
-                _context.Contact.Add(contact);
-                _context.SaveChanges();
-            }
+            await _context.SaveChangesAsync();
 
             return newUserDetails;
         }
 
-        public bool UserExistOnUserName(string userName)
+        public async Task<bool> UserExistOnUserName(string userName)
         {
-            var existingUser = _context.User.FirstOrDefault(x => x.UserName == userName);
+            var existingUser = await _context.User.FirstOrDefaultAsync(x => x.UserName == userName);
 
             if (existingUser != null)
                 return true;

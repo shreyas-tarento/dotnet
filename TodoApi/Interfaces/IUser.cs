@@ -10,14 +10,14 @@ namespace TodoApi.Interfaces
     public interface IUser
     {
         List<UserDetails> GetAllUsers();
-        UserDetails GetUser(int id);
-        UserDetailsSuccess CreateUser(UserDetails userDetails);
-        UserDetails UpdateUser(int id, UserDetails newUserDetails);
-        UserDetailsSuccess DeleteUser(int id);
+        Task<UserDetails> GetUser(int id);
+        Task<UserDetailsSuccess> CreateUser(UserDetails userDetails);
+        Task<UserDetails> UpdateUser(int id, UserDetails newUserDetails);
+        Task<UserDetailsSuccess> DeleteUser(int id);
 
-        Address GetUserAddress(int userId);
-        User GetUserInfo(int userId);
-        Contact GetUserContact(int userId);
-        bool UserExistOnUserName(string userName);
+        Task<Address> GetUserAddress(int userId);
+        Task<User> GetUserInfo(int userId);
+        Task<Contact> GetUserContact(int userId);
+        Task<bool> UserExistOnUserName(string userName);
     }
 }
