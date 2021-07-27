@@ -25,7 +25,7 @@ namespace TodoApi.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetUser([FromRoute] int id)
+        public IActionResult GetUser([FromRoute] int id) 
         {
             var existingUserInfo = _iUser.GetUserInfo(id);
             if (existingUserInfo == null)
