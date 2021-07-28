@@ -40,6 +40,9 @@ namespace EFDbCodeBase.Controllers
             if (userDetails == null)
                 return BadRequest();
 
+            if (userDetails.UserName == null)
+                return BadRequest("Username cannot be empty");
+
             var doesUseExistOnUserName = await _iUser.UserExistOnUserName(userDetails.UserName);
             if (doesUseExistOnUserName)
                 return BadRequest($"{userDetails.UserName} user name already exists");
