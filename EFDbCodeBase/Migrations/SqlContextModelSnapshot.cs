@@ -41,7 +41,7 @@ namespace EFDbCodeBase.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("EFDbCodeBase.Models.Contact", b =>
@@ -57,7 +57,7 @@ namespace EFDbCodeBase.Migrations
                     b.Property<string>("Mobile")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TelePhone")
+                    b.Property<string>("Telephone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -67,7 +67,7 @@ namespace EFDbCodeBase.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Contact");
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("EFDbCodeBase.Models.User", b =>
@@ -88,7 +88,7 @@ namespace EFDbCodeBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EFDbCodeBase.Models.Address", b =>

@@ -15,9 +15,10 @@ namespace EFDbCodeBase.Models
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public User User { get; set; }
         public string Mobile { get; set; }
-        public string TelePhone { get; set; }
+        public string Telephone { get; set; }
         public string Alternative { get; set; }
+        public User User { get; set; }
+
     }
 }

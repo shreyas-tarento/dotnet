@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EFDbCodeBase.SqlDbContext;
+using EFDbCodeBase.Interfaces;
+using EFDbCodeBase.data;
 
 namespace EFDbCodeBase
 {
@@ -28,6 +30,7 @@ namespace EFDbCodeBase
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<SqlContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
+            services.AddScoped<IUser, SqlUserData>();
             services.AddControllers();
         }
 

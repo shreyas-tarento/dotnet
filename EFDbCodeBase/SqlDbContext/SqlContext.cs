@@ -14,8 +14,8 @@ namespace EFDbCodeBase.SqlDbContext
                 
         }
 
-        public DbSet<User> User { get; set; }
-        public DbSet<Address> Address { get; set; }
-        public DbSet<Contact> Contact { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

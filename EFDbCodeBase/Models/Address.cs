@@ -15,9 +15,10 @@ namespace EFDbCodeBase.Models
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public User User { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string Pincode { get; set; }
+        public User User { get; set; }
+
     }
 }
